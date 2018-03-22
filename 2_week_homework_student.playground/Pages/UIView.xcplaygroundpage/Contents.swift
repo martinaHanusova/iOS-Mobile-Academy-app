@@ -31,21 +31,27 @@ class MyCell: UITableViewCell {
         if let person = person {
             textLabel?.text = person.name
             imageView?.image = UIImage(named: person.icon)
-            detailTextLabel?.text = scoreToString(scores: person.scores)
+            detailTextLabel?.attributedText = scoreToString(scores: person.scores)
             detailTextLabel?.textColor = UIColor.gray
         }
     }
     
-    private func scoreToString(scores: [ScoreType]) -> String {
+    private func scoreToString(scores: [ScoreType]) -> NSMutableAttributedString {
         let scoresSorted = scores.sorted(by: {score1, score2 in
             return score1.value > score2.value
         }).filter {score in
             return score.value > 0
         }
-        var retVal = ""
+        let retVal = NSMutableAttributedString(string: "")
         for (index, score) in scoresSorted.enumerated() {
             if index < 4 {
-                retVal += score.name + " \(score.value)   "
+                let scoreString = score.name
+                let attrs = [NSAttributedStringKey.font : UIFont.systemFont(ofSize: 22.0)]
+                let attributedName = NSMutableAttributedString(string: scoreString, attributes: attrs)
+                let nameString = " \(score.value)   "
+                let attributedValue = NSMutableAttributedString(string: nameString)
+                retVal.append(attributedValue)
+                retVal.append(attributedName)
             }
         }
         return retVal
