@@ -12,6 +12,47 @@ import UIKit
 //: Počítej s tím, že `scores` každé Person mohou být nesetříděná data o `n` prvcích. Zobraz první 4 největší skóre a skryj taková skóre, která mají hodnotu 0.
 //: ## Dál je to na tobě
 //: V Resources jsou obličeje tvých „spolužáků“.
+
+class MyCell: UITableViewCell {
+    var person: Person? {
+        didSet {
+            setup()
+        }
+    }
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    
+    func setup() {
+        if let person = person {
+            textLabel?.text = person.name
+            imageView?.image = UIImage(named: person.icon)
+            detailTextLabel?.text = scoreToString(scores: person.scores)
+            detailTextLabel?.textColor = UIColor.gray
+        }
+    }
+    
+    private func scoreToString(scores: [ScoreType]) -> String {
+        let scoresSorted = scores.sorted(by: {score1, score2 in
+            return score1.value > score2.value
+        }).filter {score in
+            return score.value > 0
+        }
+        var retVal = ""
+        for (index, score) in scoresSorted.enumerated() {
+            if index < 4 {
+                retVal += score.name + " \(score.value)   "
+            }
+        }
+        return retVal
+    }
+
+}
+
 class TableViewSource: NSObject, UITableViewDelegate, UITableViewDataSource  {
     private let model: ViewModel
     init(_ model: ViewModel) {
@@ -24,10 +65,8 @@ class TableViewSource: NSObject, UITableViewDelegate, UITableViewDataSource  {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let data = model.modelForRow(inSection: indexPath.section, atIdx: indexPath.row)
-        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
-        cell.textLabel?.text = data.name
-        cell.imageView?.image = UIImage(named: data.icon)
-        cell.detailTextLabel?.text = scoreToString(scores: data.scores)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell") ?? MyCell(style: .subtitle, reuseIdentifier: nil)
+        (cell as! MyCell).person = data
         return cell
     }
     
@@ -40,27 +79,18 @@ class TableViewSource: NSObject, UITableViewDelegate, UITableViewDataSource  {
     func tableView(_ tableView: UITableView, titleForFooterInSection: Int) -> String? {
         return model.modelForSection(titleForFooterInSection).footer
     }
-    
-    private func scoreToString(scores: [ScoreType]) -> String {
-        let scoresSorted = scores.sorted(by: {score1, score2 in
-            return score1.value > score2.value
-        })
-        var retVal = ""
-        for score in scoresSorted {
-            if score.value > 0 {
-            retVal += score.name + " \(score.value)   "
-            }
-        }
-        return retVal
-    }
 }
 let container = Container()
 let model = ViewModel()
 let tableSource = TableViewSource(model)
 
+
+
 let table = UITableView(frame: container.content.bounds, style: .grouped)
+
 table.delegate = tableSource
 table.dataSource = tableSource
+table.register(MyCell.self, forCellReuseIdentifier: "cell")
 
 model.didUpdateModel = {model in table.reloadData()}
 

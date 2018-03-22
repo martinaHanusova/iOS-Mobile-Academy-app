@@ -45,7 +45,7 @@ public class ViewModel: ViewModelType {
     
     public func loadData() {
         func randomScores() -> [Score] {
-            let scoreIcons = ["🍺", "☕️", "🍵", "🍛"]
+            let scoreIcons = ["🍺", "☕️", "🍵", "🍛", "🍫"]
             var retVal: [Score] = []
             for icon in scoreIcons {
                 retVal.append(Score(icon, Int(arc4random_uniform(10))))
@@ -55,16 +55,20 @@ public class ViewModel: ViewModelType {
         
         let persons = [
             Person("Adam", icon: "adam", scores: randomScores()),
-            Person("Adam", icon: "adam", scores: randomScores()),
-            Person("Adam", icon: "adam", scores: randomScores()),
-            Person("Adam", icon: "adam", scores: randomScores()),
-            Person("Adam", icon: "adam", scores: randomScores()),
-            Person("Adam", icon: "adam", scores: randomScores()),
-            Person("Adam", icon: "adam", scores: randomScores()),
-            Person("Adam", icon: "adam", scores: randomScores()),
-            Person("Adam", icon: "adam", scores: randomScores()),
-            Person("Adam", icon: "adam", scores: randomScores()),
-            Person("Adam", icon: "adam", scores: randomScores()),
+            Person("Dorota", icon: "dorota", scores: randomScores()),
+            Person("Jan", icon: "jan-kodes", scores: randomScores()),
+            Person("Jan", icon: "jan-svehla", scores: randomScores()),
+            Person("Lukas", icon: "lukas", scores: randomScores()),
+            Person("Majk", icon: "majk", scores: randomScores()),
+            Person("Marek", icon: "marek", scores: randomScores()),
+            Person("Martina", icon: "martina", scores: randomScores()),
+            Person("Michal", icon: "michal-cambor", scores: randomScores()),
+            Person("Michal", icon: "michal-kroupa", scores: randomScores()),
+            Person("Milan", icon: "milan", scores: randomScores()),
+            Person("Seb", icon: "seb", scores: randomScores()),
+            Person("Šimon", icon: "simon", scores: randomScores()),
+            Person("Tuan", icon: "tuan", scores: randomScores()),
+        
             ]
         
         model = [ViewModelType.Section(header: "Účastníci", rows: persons, footer: nil)]
