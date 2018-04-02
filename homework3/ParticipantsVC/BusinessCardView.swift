@@ -146,7 +146,7 @@ class BusinessCardView: UIScrollView {
 }
 
 public class ScoreView: UIView {
-    public var data: (name: String, value: Int)? {
+    public var data: ScoreType? {
         didSet {
             setupContent()
         }
