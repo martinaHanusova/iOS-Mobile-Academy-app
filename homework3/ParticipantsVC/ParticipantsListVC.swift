@@ -14,7 +14,7 @@ class ParticipantListVC: UIViewController, UITableViewDelegate, UITableViewDataS
     
     override func loadView() {
         
-        let table = UITableView(frame: CGRect.infinite, style: .plain)
+        let table = UITableView(frame: CGRect.infinite, style: .grouped)
         
         table.delegate = self
         table.dataSource = self
@@ -58,7 +58,8 @@ class ParticipantListVC: UIViewController, UITableViewDelegate, UITableViewDataS
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let data = model.modelForRow(inSection: indexPath.section, atIdx: indexPath.row)
         
-        self.navigationController?.pushViewController(ParticipantDetailVC(person: data), animated: false)
+        self.navigationController?.pushViewController(ParticipantDetailVC(person: data), animated: true)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
 }

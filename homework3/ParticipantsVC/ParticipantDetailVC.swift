@@ -23,10 +23,7 @@ class ParticipantDetailVC: UIViewController {
         businessCardView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         view = businessCardView
         businessCardView.showsVerticalScrollIndicator = false
-                
         businessCardView.content = person?.toBusinessCardContent()
-
-        
     }
     
     
