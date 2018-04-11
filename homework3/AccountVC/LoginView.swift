@@ -10,13 +10,36 @@ import UIKit
 
 class LoginView: UIView, UITextFieldDelegate {
     
-    private lazy var nameTextField = createNameTextField()
-    private lazy var passwordTextField = createPasswordTextField()
-    private lazy var loginButton = createButton()
+    private(set) lazy var nameTextField = createNameTextField()
+    private(set) lazy var passwordTextField = createPasswordTextField()
+    private(set) lazy var loginButton = createButton()
     public var didSubmit: (() -> Void)?
     public var inputNameValue: String? {
         get {
             return nameTextField.text
+        }
+    }
+    public var inputPasswordValue: String? {
+        get {
+            return passwordTextField.text
+        }
+    }
+    public var isFormCompleted: Bool {
+        get {
+            if inputNameValue == nil || inputNameValue == "" {
+                return false
+            }
+            if inputPasswordValue == nil || inputPasswordValue == "" {
+                return false
+            }
+            return true
+        }
+    }
+    public var isDisabled: Bool = false {
+        didSet {
+                nameTextField.isEnabled = !isDisabled
+                passwordTextField.isEnabled = !isDisabled
+                loginButton.isEnabled = !isDisabled
         }
     }
     private lazy var clickHandler = createClickHandler()

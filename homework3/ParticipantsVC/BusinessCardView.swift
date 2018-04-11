@@ -33,7 +33,7 @@ class BusinessCardView: UIScrollView {
         guard let content = self.content else {
             return
         }
-        profileImageView.image = UIImage(named: content.photoName)
+        profileImageView.image = UIImage(named: content.icon)
         nameView.text = content.name
         positionLabel.text = content.position
         contentView.translatesAutoresizingMaskIntoConstraints = false
@@ -55,7 +55,7 @@ class BusinessCardView: UIScrollView {
     
     func createSlackClickHandler() -> ClickHandler {
         return ClickHandler {
-            print(self.content!.slackUserId)
+            print(self.content!.slack_id)
         }
     }
     
@@ -160,7 +160,7 @@ public class ScoreView: UIView {
         let nameLabel = UILabel()
         addSubview(nameLabel)
         nameLabel.font = UIFont(name:"Helvetica", size: 14)
-        nameLabel.text = data.name + " skóre"
+        nameLabel.text = data.name
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         nameLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
         nameLabel.topAnchor.constraint(equalTo: self.topAnchor).isActive = true

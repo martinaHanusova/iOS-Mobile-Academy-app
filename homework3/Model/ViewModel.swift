@@ -52,35 +52,56 @@ public class ViewModel: ViewModelType {
     public var didUpdateModel: ((Model) -> Void)?
     
     public func loadData() {
-        func randomScores() -> [Score] {
-            let scoreIcons = ["🍺", "☕️", "🍵", "🍛", "🍫"]
-            var retVal: [Score] = []
-            for icon in scoreIcons {
-                retVal.append(Score(icon, Int(arc4random_uniform(10))))
+        DispatchQueue.global().async {
+            let url = URL(string: "http://emarest.cz.mass-php-1.mit.etn.cz/api/participants?sort=asc")
+            let data = try! Data(contentsOf: url!)
+            let decoder = JSONDecoder()
+            let persons = try! decoder.decode(Array<Person>.self, from: data)
+            DispatchQueue.main.async {
+                self.model = [ViewModelType.Section(header: nil, rows: persons, footer: nil)]
             }
-            return retVal
         }
-        
-        let persons = [
-            Person("Adam", icon: "adam", scores: randomScores()),
-            Person("Dorota", icon: "dorota", scores: randomScores()),
-            Person("Jan", icon: "jan-kodes", scores: randomScores()),
-            Person("Jan", icon: "jan-svehla", scores: randomScores()),
-            Person("Lukas", icon: "lukas", scores: randomScores()),
-            Person("Majk", icon: "majk", scores: randomScores()),
-            Person("Marek", icon: "marek", scores: randomScores()),
-            Person("Martina", icon: "martina", scores: randomScores()),
-            Person("Michal", icon: "michal-cambor", scores: randomScores()),
-            Person("Michal", icon: "michal-kroupa", scores: randomScores()),
-            Person("Milan", icon: "milan", scores: randomScores()),
-            Person("Seb", icon: "seb", scores: randomScores()),
-            Person("Šimon", icon: "simon", scores: randomScores()),
-            Person("Tuan", icon: "tuan", scores: randomScores()),
-            
-            ]
-        
-        model = [ViewModelType.Section(header: nil, rows: persons, footer: nil)]
     }
+    
+    public func findById(id: Int, onSuccess:@escaping (BusinessCardContent) -> Void) {
+        DispatchQueue.global().async {
+            let url = URL(string: "http://emarest.cz.mass-php-1.mit.etn.cz/api/participant/\(id)")
+            let data = try! Data(contentsOf: url!)
+            let decoder = JSONDecoder()
+            let content = try! decoder.decode(BusinessCardContent.self, from: data)
+            DispatchQueue.main.async {
+                onSuccess(content)
+            }
+        }
+    }
+    
+    public func findByAccountCredentials(account: AccountCredentials, onSuccess:@escaping (BusinessCardContent) -> Void) {
+        DispatchQueue.global().async {
+            
+            let url = URL(string: "http://emarest.cz.mass-php-1.mit.etn.cz/api/account/\(account.accountId)")
+            var urlRequest = URLRequest(url: url!)
+            urlRequest.addValue(account.accessToken, forHTTPHeaderField: "accessToken")
+            
+            let dataTask = URLSession.shared.dataTask(with: urlRequest ){ (data, response, error) in
+                
+                guard let data = data else { return }
+                
+                let decoder = JSONDecoder()
+                
+                do {
+                    let content = try decoder.decode(BusinessCardContent.self, from: data)
+                    DispatchQueue.main.async {
+                        onSuccess(content)
+                    }
+                } catch {
+                    print(error)
+                }
+            }
+            dataTask.resume()
+        }
+    }
+   
+
     
     public func findByName(name: String) -> Person? {
         var person: Person?

@@ -40,7 +40,7 @@ class ParticipantCell: UITableViewCell {
         let retVal = NSMutableAttributedString(string: "")
         for (index, score) in scoresSorted.enumerated() {
             if index < 4 {
-                let scoreString = score.name
+                let scoreString = score.emoji
                 let attrs = [NSAttributedStringKey.font : UIFont.systemFont(ofSize: 22.0)]
                 let attributedName = NSMutableAttributedString(string: scoreString, attributes: attrs)
                 let nameString = " \(score.value)   "

@@ -12,24 +12,28 @@ class ParticipantListVC: UIViewController, UITableViewDelegate, UITableViewDataS
     
     private lazy var model: ViewModel = ViewModel()
     
-    override func loadView() {
-        
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.title = "Seznam účastníků"
         let table = UITableView(frame: CGRect.infinite, style: .grouped)
+        let loadingView = LoadingView()
+        loadingView.setup()
         
         table.delegate = self
         table.dataSource = self
         table.register(ParticipantCell.self, forCellReuseIdentifier: "cell")
         
-        model.didUpdateModel = {model in table.reloadData()}
-
+        model.didUpdateModel = { model in
+            table.reloadData()
+            loadingView.removeFromSuperview()
+            table.frame = self.view.frame
+            self.view.addSubview(table)
+        }
+        
         table.autoresizingMask = [.flexibleWidth,.flexibleHeight]
-        view = table
+        loadingView.frame = view.frame
+        view.addSubview(loadingView)
         model.loadData()
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        self.title = "Seznam účastníků"
     }
     
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -58,7 +62,7 @@ class ParticipantListVC: UIViewController, UITableViewDelegate, UITableViewDataS
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let data = model.modelForRow(inSection: indexPath.section, atIdx: indexPath.row)
         
-        self.navigationController?.pushViewController(ParticipantDetailVC(person: data), animated: true)
+        self.navigationController?.pushViewController(ParticipantDetailVC(person: data, model: model), animated: true)
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
