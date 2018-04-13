@@ -8,7 +8,7 @@
 
 import UIKit
 
-class LoginView: UIView, UITextFieldDelegate {
+public class LoginView: UIView, UITextFieldDelegate {
     
     private(set) lazy var nameTextField = createNameTextField()
     private(set) lazy var passwordTextField = createPasswordTextField()
@@ -125,7 +125,7 @@ class LoginView: UIView, UITextFieldDelegate {
         }
     }
     
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+    public func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == passwordTextField {
             if let didSubmit = self.didSubmit {
                 didSubmit()

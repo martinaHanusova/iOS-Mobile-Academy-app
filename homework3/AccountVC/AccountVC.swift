@@ -40,6 +40,10 @@ class AccountVC: UIViewController {
         model.findByAccountCredentials(account: account!, onSuccess: {
             self.showParticipantDetail(businessCardContent: $0)
             loadingView.removeFromSuperview()
+        }, onError:{
+            loadingView.removeFromSuperview()
+            self.showLoginView()
+            
         })
         
         

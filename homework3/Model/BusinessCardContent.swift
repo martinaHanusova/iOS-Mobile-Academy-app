@@ -29,7 +29,4 @@ public class BusinessCardContent: Codable {
         self.position = position
         self.scores = scores
     }
-    
-    
-
 }

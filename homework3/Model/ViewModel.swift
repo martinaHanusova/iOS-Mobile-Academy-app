@@ -75,7 +75,7 @@ public class ViewModel: ViewModelType {
         }
     }
     
-    public func findByAccountCredentials(account: AccountCredentials, onSuccess:@escaping (BusinessCardContent) -> Void) {
+    public func findByAccountCredentials(account: AccountCredentials, onSuccess:@escaping (BusinessCardContent) -> Void, onError:@escaping () -> Void) {
         DispatchQueue.global().async {
             
             let url = URL(string: "http://emarest.cz.mass-php-1.mit.etn.cz/api/account/\(account.accountId)")
@@ -94,14 +94,49 @@ public class ViewModel: ViewModelType {
                         onSuccess(content)
                     }
                 } catch {
-                    print(error)
+                    onError()
                 }
             }
             dataTask.resume()
         }
     }
    
-
+    public func logIn(name: String, password: String, onSuccess: @escaping (AccountCredentials) -> Void, onError:@escaping () -> Void) {
+        
+        let login = Login(name, password)
+        let url = URL(string: "http://emarest.cz.mass-php-1.mit.etn.cz/api/login")
+        var urlRequest = URLRequest(url: url!)
+        urlRequest.httpMethod = "POST"
+        urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        let encoder = JSONEncoder()
+        let model = login
+        let data = try? encoder.encode(model)
+        
+        urlRequest.httpBody = data
+        
+        let dataTask = URLSession.shared.dataTask(with: urlRequest ){ (data, response, error) in
+            
+            guard let data = data else { return }
+            
+            let decoder = JSONDecoder()
+            
+            do {
+                let model = try decoder.decode(AccountCredentials.self, from: data)
+                DispatchQueue.main.async {
+                    onSuccess(model)
+                }
+            } catch {
+                onError()
+            }
+            
+            
+        }
+        
+        DispatchQueue.global().async {
+            dataTask.resume()
+        }
+    }
     
     public func findByName(name: String) -> Person? {
         var person: Person?
