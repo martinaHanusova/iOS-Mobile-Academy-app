@@ -52,7 +52,7 @@ public class Person: Codable, PersonType {
         case scores = "scores"
     }
     
-    public init(id: Int, _ name: String, icon: String, scores: [ScoreType] ) {
+    public init(id: Int, _ name: String, icon: String, scores: [Score] ) {
         self.id = id
         self.name = name
         self.icon = icon
