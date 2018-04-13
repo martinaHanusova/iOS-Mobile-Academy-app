@@ -13,7 +13,7 @@ public class BusinessCardContent: Codable {
     public let id: Int
     public let name: String
     public let icon: String
-    public let slack_id: String
+    public let slackUserId: String
     public let email: String
     public let phone: String
     public let position: String
@@ -23,10 +23,23 @@ public class BusinessCardContent: Codable {
         self.id = id
         self.name = name
         self.icon = icon
-        self.slack_id = slack_id
+        self.slackUserId = slack_id
         self.email = email
         self.phone = phone
         self.position = position
         self.scores = scores
+    }
+    
+    enum CodingKeys: String, CodingKey {
+        case slackUserId = "slack_id"
+        
+        case id
+        case name
+        case icon
+        case email
+        case phone
+        case position
+        case scores
+        
     }
 }

@@ -55,7 +55,7 @@ class BusinessCardView: UIScrollView {
     
     func createSlackClickHandler() -> ClickHandler {
         return ClickHandler {
-            print(self.content!.slack_id)
+            print(self.content!.slackUserId)
         }
     }
     

@@ -29,8 +29,6 @@ class ParticipantDetailVC: UIViewController {
         model?.findById(id: (person?.id)!) {
             bussinessCardContent in self.didLoadData(content: bussinessCardContent)
         }
-    
-        // Do any additional setup after loading the view, typically from a nib.
     }
     
     override func didReceiveMemoryWarning() {

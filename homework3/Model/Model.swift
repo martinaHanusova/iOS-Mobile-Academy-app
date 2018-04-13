@@ -39,17 +39,43 @@ public class Score: ScoreType, Codable {
     }
 }
 
-public class Person: Codable {
+public class Person: Codable, PersonType {
     public private(set) var id: Int
     public private(set) var name: String
     public private(set) var icon: String
-    public private(set) var scores: [Score]
+    public private(set) var scores: [ScoreType]
     
-    public init(id: Int, _ name: String, icon: String, scores: [Score] ) {
+    enum CodingKeys: String, CodingKey {
+        case id = "id"
+        case name = "name"
+        case icon = "icon"
+        case scores = "scores"
+    }
+    
+    public init(id: Int, _ name: String, icon: String, scores: [ScoreType] ) {
         self.id = id
         self.name = name
         self.icon = icon
         self.scores = scores
+    }
+    
+    public convenience required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let id: Int = try container.decode(Int.self, forKey: .id)
+        let name: String = try container.decode(String.self, forKey: .name)
+        let icon: String = try container.decode(String.self, forKey: .icon)
+        let scores: [Score] = try container.decode([Score].self, forKey: .scores)
+        
+        self.init(id: id, name, icon: icon, scores: scores)
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(id, forKey: .id)
+        try container.encode(name, forKey: .name)
+        try container.encode(icon, forKey: .icon)
+        try container.encode(scores as! [Score], forKey: .scores)
+
     }
 }
 
