@@ -90,6 +90,7 @@ public class ViewModel: ViewModelType {
                 
                 do {
                     let content = try decoder.decode(BusinessCardContent.self, from: data)
+                    sleep(4)
                     DispatchQueue.main.async {
                         onSuccess(content)
                     }

@@ -14,6 +14,7 @@ class AccountVC: UIViewController {
     lazy var profileView = BusinessCardView()
     
     private var account: AccountCredentials?
+    private var profileData: BusinessCardContent?
     
     override func viewWillAppear(_ animated: Bool) {
         view.subviews.forEach({view in view.removeFromSuperview()})
@@ -22,6 +23,11 @@ class AccountVC: UIViewController {
             showLoginView()
             return
         }
+        if let profileData = profileData {
+            showParticipantDetail(businessCardContent: profileData)
+            return
+        }
+        
         let loadingView = LoadingView()
         loadingView.setup()
         loadingView.frame = view.frame
@@ -34,6 +40,7 @@ class AccountVC: UIViewController {
         
         let model = ViewModel()
         model.findByAccountCredentials(account: account!, onSuccess: {
+            self.profileData = $0
             self.showParticipantDetail(businessCardContent: $0)
             timer?.invalidate()
             timer = nil
