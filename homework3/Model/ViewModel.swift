@@ -94,7 +94,9 @@ public class ViewModel: ViewModelType {
                         onSuccess(content)
                     }
                 } catch {
-                    onError()
+                    DispatchQueue.main.async {
+                        onError()
+                    }
                 }
             }
             dataTask.resume()
@@ -127,12 +129,11 @@ public class ViewModel: ViewModelType {
                     onSuccess(model)
                 }
             } catch {
-                onError()
+                DispatchQueue.main.async {
+                    onError()
+                }
             }
-            
-            
         }
-        
         DispatchQueue.global().async {
             dataTask.resume()
         }

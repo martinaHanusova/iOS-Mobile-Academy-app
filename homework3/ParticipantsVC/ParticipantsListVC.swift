@@ -22,6 +22,8 @@ class ParticipantListVC: UIViewController, UITableViewDelegate, UITableViewDataS
         table.delegate = self
         table.dataSource = self
         table.register(ParticipantCell.self, forCellReuseIdentifier: "cell")
+        table.autoresizingMask = [.flexibleWidth,.flexibleHeight]
+        
         
         model.didUpdateModel = { model in
             table.reloadData()
@@ -30,10 +32,18 @@ class ParticipantListVC: UIViewController, UITableViewDelegate, UITableViewDataS
             self.view.addSubview(table)
         }
         
-        table.autoresizingMask = [.flexibleWidth,.flexibleHeight]
+        
         loadingView.frame = view.frame
         view.addSubview(loadingView)
+        var timer : Timer?
+        timer = Timer.scheduledTimer(
+        withTimeInterval: 0.002, repeats: false) { _ in
+            self.view.addSubview(loadingView)
+        }
         model.loadData()
+        timer?.invalidate()
+        timer = nil
+        
     }
     
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

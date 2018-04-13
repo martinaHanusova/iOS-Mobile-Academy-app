@@ -24,10 +24,15 @@ class ParticipantDetailVC: UIViewController {
         super.viewDidLoad()
         loading.setup()
         loading.frame = view.frame
-        view.addSubview(loading)
-
-        model?.findById(id: (person?.id)!) {
+        var timer : Timer?
+        timer = Timer.scheduledTimer(
+        withTimeInterval: 0.2, repeats: false) { _ in
+                self.view.addSubview(self.loading)
+        }
+        self.model?.findById(id: (self.person?.id)!) {
             bussinessCardContent in self.didLoadData(content: bussinessCardContent)
+            timer?.invalidate()
+            timer = nil
         }
     }
     

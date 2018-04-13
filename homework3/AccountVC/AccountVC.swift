@@ -10,19 +10,10 @@ import UIKit
 
 class AccountVC: UIViewController {
     
-    lazy var content = createLoginView()
-    lazy var contentDetail = BusinessCardView()
+    lazy var loginView = createLoginView()
+    lazy var profileView = BusinessCardView()
     
     private var account: AccountCredentials?
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        UserDefaults.standard.removeObject(forKey: "Person")
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
     
     override func viewWillAppear(_ animated: Bool) {
         view.subviews.forEach({view in view.removeFromSuperview()})
@@ -34,38 +25,45 @@ class AccountVC: UIViewController {
         let loadingView = LoadingView()
         loadingView.setup()
         loadingView.frame = view.frame
-        view.addSubview(loadingView)
+        
+        var timer : Timer?
+        timer = Timer.scheduledTimer(
+        withTimeInterval: 0.2, repeats: false) { _ in
+            self.view.addSubview(loadingView)
+        }
         
         let model = ViewModel()
         model.findByAccountCredentials(account: account!, onSuccess: {
             self.showParticipantDetail(businessCardContent: $0)
+            timer?.invalidate()
+            timer = nil
             loadingView.removeFromSuperview()
         }, onError:{
+            timer?.invalidate()
+            timer = nil
             loadingView.removeFromSuperview()
             self.showLoginView()
             
         })
-        
-        
     }
     
     func showLoginView() {
-        view.addSubview(content)
-        content.translatesAutoresizingMaskIntoConstraints = false
-        content.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        content.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        content.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        content.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        view.addSubview(loginView)
+        loginView.translatesAutoresizingMaskIntoConstraints = false
+        loginView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        loginView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        loginView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        loginView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
     }
     
     func showParticipantDetail(businessCardContent: BusinessCardContent) {
-        contentDetail.content = businessCardContent
-        view.addSubview(contentDetail)
-        contentDetail.translatesAutoresizingMaskIntoConstraints = false
-        contentDetail.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        contentDetail.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        contentDetail.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        contentDetail.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        profileView.content = businessCardContent
+        view.addSubview(profileView)
+        profileView.translatesAutoresizingMaskIntoConstraints = false
+        profileView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        profileView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        profileView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        profileView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
     }
     
     func createLoginView() -> LoginView {
