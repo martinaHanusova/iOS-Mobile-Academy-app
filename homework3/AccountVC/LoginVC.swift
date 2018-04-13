@@ -16,7 +16,6 @@ class LoginVC: UIViewController {
         content.didSubmit = {
             if content.isFormCompleted {
                 content.isDisabled = true
-            UserDefaults.standard.set(content.inputNameValue, forKey: "Person")
             let model = ViewModel()
                 model.logIn(name: content.inputNameValue!, password: content.inputPasswordValue!, onSuccess: {
                     if let didLogin = self.didLogin {
