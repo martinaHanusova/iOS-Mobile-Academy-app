@@ -89,7 +89,7 @@ public class Login: Encodable {
     }
 }
 
-public class AccountCredentials: Decodable {
+public class AccountCredentials: Codable {
     let accountId: Int
     let accessToken: String
     
@@ -99,19 +99,4 @@ public class AccountCredentials: Decodable {
     }
 }
 
-/*
-public class PersonFailing: PersonType {
-    public private(set) var id: Int
-    public private(set) var name: String
-    public private(set) var icon: String
-    public private(set) var scores: [ScoreType]
-    
-    public init(id: Int, _ name: String, icon: String, scores: [ScoreType] ) {
-        self.id = id
-        self.name = name
-        self.icon = icon
-        self.scores = scores
-    }
-}
- */
 

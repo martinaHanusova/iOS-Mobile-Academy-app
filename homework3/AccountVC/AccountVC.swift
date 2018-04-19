@@ -11,50 +11,61 @@ import UIKit
 class AccountVC: UIViewController {
     
     lazy var loginView = createLoginView()
+    lazy var loginVC = LoginVC()
     lazy var profileView = BusinessCardView()
+    private let loadingView = LoadingView()
+    private var viewModel: AccountVM
     
-    private var account: AccountCredentials?
-    private var profileData: BusinessCardContent?
-    
-    override func viewWillAppear(_ animated: Bool) {
-        view.subviews.forEach({view in view.removeFromSuperview()})
-        
-        if account == nil {
-            showLoginView()
-            return
-        }
-        if let profileData = profileData {
-            showParticipantDetail(businessCardContent: profileData)
-            return
-        }
-        
-        let loadingView = LoadingView()
-        loadingView.setup()
-        loadingView.frame = view.frame
-        
-        var timer : Timer?
-        timer = Timer.scheduledTimer(
-        withTimeInterval: 0.2, repeats: false) { _ in
-            self.view.addSubview(loadingView)
-        }
-        
-        let model = ViewModel()
-        model.findByAccountCredentials(account: account!, onSuccess: {
-            self.profileData = $0
-            self.showParticipantDetail(businessCardContent: $0)
-            timer?.invalidate()
-            timer = nil
-            loadingView.removeFromSuperview()
-        }, onError:{
-            timer?.invalidate()
-            timer = nil
-            loadingView.removeFromSuperview()
-            self.showLoginView()
-            
-        })
+    init(viewModel: AccountVM) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
     }
     
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        bindViewModel()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        viewModel.loadData()
+    }
+    
+    func bindViewModel() {
+        viewModel.needLogin = {
+            if self.presentedViewController == self.loginVC {
+                self.loginVC.reset()
+            } else {
+                self.showLoginView()
+            }
+        }
+        viewModel.willDownloadProfile = {
+            if self.presentedViewController == self.loginVC {
+                self.loginVC.dismiss(animated: true)
+            }
+            self.showLoadingView()
+        }
+        viewModel.didDownloadProfile = {
+            self.showParticipantDetail(businessCardContent: $0)
+        }
+        
+        viewModel.needFillInCredentials = {
+            self.loginVC.didLogin = {
+                self.viewModel.loginFilled(name: $0, password: $1)
+            }
+            self.present(self.loginVC, animated: true)
+        }
+        
+        
+    }
+    
+    
+    
     func showLoginView() {
+        reset()
         view.addSubview(loginView)
         loginView.translatesAutoresizingMaskIntoConstraints = false
         loginView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
@@ -64,6 +75,7 @@ class AccountVC: UIViewController {
     }
     
     func showParticipantDetail(businessCardContent: BusinessCardContent) {
+        reset()
         profileView.content = businessCardContent
         view.addSubview(profileView)
         profileView.translatesAutoresizingMaskIntoConstraints = false
@@ -73,15 +85,24 @@ class AccountVC: UIViewController {
         profileView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
     }
     
+    func showLoadingView() {
+        reset()
+        loadingView.setup()
+        loadingView.frame = view.frame
+        view.addSubview(self.loadingView)
+    }
+    
     func createLoginView() -> LoginView {
         let content = LoginView()
         content.displayTextFields = false
         content.didSubmit = {
-            let loginVC = LoginVC()
-            loginVC.didLogin = {self.account = $0}
-            self.present(loginVC, animated: true)
+            self.viewModel.loginRequested()
         }
         return content
+    }
+    
+    func reset() {
+        view.subviews.forEach({view in view.removeFromSuperview()})
     }
 }
 

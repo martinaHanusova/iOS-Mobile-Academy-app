@@ -10,8 +10,8 @@ import UIKit
 
 class ParticipantsVC: UINavigationController {
     
-    convenience init() {
-        self.init(rootViewController: ParticipantListVC())
+    convenience init(viewModel: ParticipantsVM) {
+        self.init(rootViewController: ParticipantListVC(viewModel: viewModel))
     }
 
     override func viewDidLoad() {

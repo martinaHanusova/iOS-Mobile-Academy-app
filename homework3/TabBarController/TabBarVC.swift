@@ -10,11 +10,26 @@ import UIKit
 
 class TabBarVC: UITabBarController {
     
+    private let accountVM: AccountVM
+    private let listVM: ParticipantsVM
+    
+    init(accountVM: AccountVM, listVM: ParticipantsVM) {
+        self.accountVM = accountVM
+        self.listVM = listVM
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    
+    
     override func viewDidLoad() {
         self.tabBar.tintColor = UIColor(named: "academy")
-        let accountVC = AccountVC()
+        let accountVC = AccountVC(viewModel: accountVM)
         accountVC.tabBarItem = createTabBarItem(title: "Účet", iconName: "ic-account")
-        let participantVC = ParticipantsVC()
+        let participantVC = ParticipantsVC(viewModel: listVM)
         participantVC.tabBarItem = createTabBarItem(title: "Seznam účastníků", iconName: "ic-list")
         viewControllers = [participantVC, accountVC]
     }

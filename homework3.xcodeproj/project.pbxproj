@@ -10,7 +10,7 @@
 		513BD9A0207185240083625A /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 513BD99F207185240083625A /* LoginView.swift */; };
 		513BD9A220718BED0083625A /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 513BD9A120718BEC0083625A /* LoginVC.swift */; };
 		513BD9A4207277050083625A /* BusinessCardContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 513BD9A3207277050083625A /* BusinessCardContent.swift */; };
-		513BD9A6207277B90083625A /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 513BD9A5207277B90083625A /* ViewModel.swift */; };
+		513BD9A6207277B90083625A /* ViewModelParticipants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 513BD9A5207277B90083625A /* ViewModelParticipants.swift */; };
 		51425D4B207C1B4C004E268B /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51425D4A207C1B4C004E268B /* LoadingView.swift */; };
 		517C03F120700D5A002B789E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 517C03F020700D5A002B789E /* AppDelegate.swift */; };
 		517C03F320700D5A002B789E /* ParticipantsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 517C03F220700D5A002B789E /* ParticipantsVC.swift */; };
@@ -25,13 +25,15 @@
 		517C0413207035F9002B789E /* ParticipantDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 517C0412207035F8002B789E /* ParticipantDetailVC.swift */; };
 		517C041D20703B30002B789E /* BusinessCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 517C041C20703B30002B789E /* BusinessCardView.swift */; };
 		5194F2762072812500CEDD7B /* ClickHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5194F2752072812500CEDD7B /* ClickHandler.swift */; };
+		51A4241220869316009AA3B9 /* ViewModelAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51A4241120869316009AA3B9 /* ViewModelAccount.swift */; };
+		51A424142086B85F009AA3B9 /* LocalAuthentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51A424132086B85F009AA3B9 /* LocalAuthentication.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		513BD99F207185240083625A /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		513BD9A120718BEC0083625A /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
 		513BD9A3207277050083625A /* BusinessCardContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusinessCardContent.swift; sourceTree = "<group>"; };
-		513BD9A5207277B90083625A /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
+		513BD9A5207277B90083625A /* ViewModelParticipants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelParticipants.swift; sourceTree = "<group>"; };
 		51425D4A207C1B4C004E268B /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		517C03ED20700D59002B789E /* homework3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = homework3.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		517C03F020700D5A002B789E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -48,6 +50,8 @@
 		517C0412207035F8002B789E /* ParticipantDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParticipantDetailVC.swift; sourceTree = "<group>"; };
 		517C041C20703B30002B789E /* BusinessCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusinessCardView.swift; sourceTree = "<group>"; };
 		5194F2752072812500CEDD7B /* ClickHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClickHandler.swift; sourceTree = "<group>"; };
+		51A4241120869316009AA3B9 /* ViewModelAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelAccount.swift; sourceTree = "<group>"; };
+		51A424132086B85F009AA3B9 /* LocalAuthentication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthentication.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,7 +86,7 @@
 			children = (
 				517C040B207028F0002B789E /* Model */,
 				517C040420701873002B789E /* AccountVC */,
-				517C040320701858002B789E /* ParticipantsVC */,
+				517C040320701858002B789E /* Participants */,
 				517C040220701749002B789E /* TabBarController */,
 				517C03F020700D5A002B789E /* AppDelegate.swift */,
 				517C03F420700D5A002B789E /* Main.storyboard */,
@@ -90,6 +94,7 @@
 				517C03F920700D5A002B789E /* LaunchScreen.storyboard */,
 				517C03FC20700D5A002B789E /* Info.plist */,
 				51425D4A207C1B4C004E268B /* LoadingView.swift */,
+				51A424132086B85F009AA3B9 /* LocalAuthentication.swift */,
 			);
 			path = homework3;
 			sourceTree = "<group>";
@@ -102,7 +107,7 @@
 			path = TabBarController;
 			sourceTree = "<group>";
 		};
-		517C040320701858002B789E /* ParticipantsVC */ = {
+		517C040320701858002B789E /* Participants */ = {
 			isa = PBXGroup;
 			children = (
 				517C03F220700D5A002B789E /* ParticipantsVC.swift */,
@@ -112,7 +117,7 @@
 				517C041C20703B30002B789E /* BusinessCardView.swift */,
 				5194F2752072812500CEDD7B /* ClickHandler.swift */,
 			);
-			path = ParticipantsVC;
+			path = Participants;
 			sourceTree = "<group>";
 		};
 		517C040420701873002B789E /* AccountVC */ = {
@@ -130,7 +135,8 @@
 			children = (
 				517C040C20702915002B789E /* Model.swift */,
 				513BD9A3207277050083625A /* BusinessCardContent.swift */,
-				513BD9A5207277B90083625A /* ViewModel.swift */,
+				513BD9A5207277B90083625A /* ViewModelParticipants.swift */,
+				51A4241120869316009AA3B9 /* ViewModelAccount.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -212,11 +218,13 @@
 				517C040820701F3B002B789E /* TabBarVC.swift in Sources */,
 				517C040D20702915002B789E /* Model.swift in Sources */,
 				517C040A20702702002B789E /* ParticipantsListVC.swift in Sources */,
+				51A424142086B85F009AA3B9 /* LocalAuthentication.swift in Sources */,
 				5194F2762072812500CEDD7B /* ClickHandler.swift in Sources */,
-				513BD9A6207277B90083625A /* ViewModel.swift in Sources */,
+				513BD9A6207277B90083625A /* ViewModelParticipants.swift in Sources */,
 				517C041D20703B30002B789E /* BusinessCardView.swift in Sources */,
 				51425D4B207C1B4C004E268B /* LoadingView.swift in Sources */,
 				517C04112070298E002B789E /* ParticipantCell.swift in Sources */,
+				51A4241220869316009AA3B9 /* ViewModelAccount.swift in Sources */,
 				517C0406207018BF002B789E /* AccountVC.swift in Sources */,
 				513BD9A220718BED0083625A /* LoginVC.swift in Sources */,
 				513BD9A0207185240083625A /* LoginView.swift in Sources */,

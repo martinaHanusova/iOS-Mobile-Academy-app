@@ -8,40 +8,23 @@
 import UIKit
 
 class LoginVC: UIViewController {
-    var didLogin : ((AccountCredentials) -> Void)?
+    var didLogin : ((String, String) -> Void)?
+    let content = LoginView()
     
     override func loadView() {
-        let content = LoginView()
         content.displayTextFields = true
         content.didSubmit = {
-            if content.isFormCompleted {
-                content.isDisabled = true
-            let model = ViewModel()
-                model.logIn(name: content.inputNameValue!, password: content.inputPasswordValue!, onSuccess: {
-                    if let didLogin = self.didLogin {
-                        didLogin($0)
-                    }
-                    self.dismiss(animated: true)
-                }, onError: {
-                     content.isDisabled = false
-                })
-            
+            if self.content.isFormCompleted {
+                self.content.isDisabled = true
+                self.didLogin?(self.content.inputNameValue!, self.content.inputPasswordValue!)
             }
         }
         view = content
     }
     
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+    func reset() {
+        content.isDisabled = false
     }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
     
 }
 

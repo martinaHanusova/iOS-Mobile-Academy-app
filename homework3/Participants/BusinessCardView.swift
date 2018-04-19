@@ -33,7 +33,7 @@ class BusinessCardView: UIScrollView {
         guard let content = self.content else {
             return
         }
-        profileImageView.image = UIImage(named: content.icon)
+        profileImageView.image = UIImage(named: content.icon + "-large")
         nameView.text = content.name
         positionLabel.text = content.position
         contentView.translatesAutoresizingMaskIntoConstraints = false
