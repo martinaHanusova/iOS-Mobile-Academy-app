@@ -13,7 +13,7 @@ class LocalAuthentication: Authenticator {
     
     func check(onSucces: @escaping () -> Void, onError: @escaping () -> Void) {
         let myContext = LAContext()
-        let myLocalizedReasonString = "Biometrická autentizace - Mobile academy "
+        let myLocalizedReasonString = "Biometrická autentizace - Mobile academy"
         
         var authError: NSError?
         if #available(iOS 8.0, macOS 10.12.1, *) {

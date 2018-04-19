@@ -46,7 +46,7 @@ class ParticipantListVC: UIViewController, UITableViewDelegate, UITableViewDataS
             loadingView.setup()
             loadingView.frame = self.view.frame
             self.view.addSubview(loadingView)
-            }
+        }
             
         viewModel.willLoadDetail = {
             participantDetailVC.content = nil
