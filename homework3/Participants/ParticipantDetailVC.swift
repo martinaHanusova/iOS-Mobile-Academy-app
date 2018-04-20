@@ -32,13 +32,14 @@ class ParticipantDetailVC: UIViewController {
     }
     
     func didLoadData(content: BusinessCardContent) {
-        businessCardView.content = content
+        businessCardView.frame = view.frame
         view.addSubview(businessCardView)
+        businessCardView.content = content
+        
     }
     
     func createBusinessCardView() -> BusinessCardView {
         let businessCardView = BusinessCardView()
-        businessCardView.frame = view.frame
         businessCardView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         
         businessCardView.showsVerticalScrollIndicator = false

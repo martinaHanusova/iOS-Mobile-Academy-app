@@ -73,6 +73,7 @@ class BusinessCardView: UIScrollView {
     
     func createContentView() -> UIStackView {
         let contentView = UIStackView()
+        backgroundColor = .white
         addSubview(contentView)
         contentView.topAnchor.constraint(equalTo: topAnchor, constant: 80).isActive = true
         contentView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -40).isActive = true
