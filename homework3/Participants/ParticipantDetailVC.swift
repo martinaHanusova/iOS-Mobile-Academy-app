@@ -20,6 +20,8 @@ class ParticipantDetailVC: UIViewController {
     
     lazy var businessCardView = createBusinessCardView()
     
+    
+    
     func updateView() {
         view.subviews.forEach({view in view.removeFromSuperview()})
         if let content = content {
@@ -35,6 +37,7 @@ class ParticipantDetailVC: UIViewController {
         businessCardView.frame = view.frame
         view.addSubview(businessCardView)
         businessCardView.content = content
+        self.navigationController?.view.setNeedsLayout()
         
     }
     

@@ -13,7 +13,7 @@ class ParticipantsVC: UINavigationController {
     convenience init(viewModel: ParticipantsVM) {
         self.init(rootViewController: ParticipantListVC(viewModel: viewModel))
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationBar.tintColor = UIColor(named: "academy")

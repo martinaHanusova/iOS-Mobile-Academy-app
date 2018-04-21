@@ -50,6 +50,7 @@ public class LoginView: UIView, UITextFieldDelegate {
     }
     
     private func setup() {
+        self.backgroundColor = .white
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.spacing = 10
@@ -79,7 +80,8 @@ public class LoginView: UIView, UITextFieldDelegate {
         nameTextField.textAlignment = .center
         nameTextField.tintColor = UIColor(named: "academy")
         nameTextField.borderStyle = .roundedRect
-        nameTextField.keyboardType = .asciiCapable
+        nameTextField.keyboardType = .emailAddress
+        nameTextField.autocapitalizationType = .none
         nameTextField.becomeFirstResponder()
         nameTextField.returnKeyType = .next
         nameTextField.isSecureTextEntry = false
