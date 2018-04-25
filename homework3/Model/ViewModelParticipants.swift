@@ -14,13 +14,15 @@ public protocol ParticipantsVM {
     typealias Model = [Section]
     
     var model: Model {get}
-    var didUpdateModel: ((Model) -> Void)? {get set}
+    var didUpdateModel: ((Model) -> Void)? { get set }
     // Should be called, when list data begin to load
     var willUpdateModel: (()->Void)? { get set }
+    var didFailedLoadingModel: (() -> Void)? { get set }
     // Should be called, when detail loading. True = began. False = finished with error, or when participant should be closed for now
     var willLoadDetail: (()->Void)? { get set }
     // Should be called, when detail is available and should be displayed
     var didLoadDetail: ((BusinessCardContent?)->Void)? { get set }
+    var didFailedLoadingDetail: (() -> Void)? { get set }
     func numberOfSections() -> Int
     func numberOfRows(inSection: Int) -> Int
     func modelForSection(_ section: Int) -> Section
@@ -59,8 +61,10 @@ public class ViewModelParticipants: ParticipantsVM {
     }
     public var didUpdateModel: ((Model) -> Void)?
     public var willUpdateModel: (()->Void)?
+    public var didFailedLoadingModel: (() -> Void)?
     public var willLoadDetail: (()->Void)?
     public var didLoadDetail: ((BusinessCardContent?)->Void)?
+    public var didFailedLoadingDetail: (() -> Void)?
     public private(set) var displayedDetail: BusinessCardContent? {
         didSet {
             self.didLoadDetail?((displayedDetail))
@@ -71,12 +75,19 @@ public class ViewModelParticipants: ParticipantsVM {
         self.willUpdateModel?()
         DispatchQueue.global().async {
             let url = URL(string: "http://emarest.cz.mass-php-1.mit.etn.cz/api/participants?sort=asc")
-            let data = try! Data(contentsOf: url!)
-            let decoder = JSONDecoder()
-            let persons = try! decoder.decode(Array<Person>.self, from: data)
-            DispatchQueue.main.async {
-                self.model = [ParticipantsVM.Section(header: nil, rows: persons, footer: nil)]
+            do {
+                let data = try Data(contentsOf: url!)
+                let decoder = JSONDecoder()
+                let persons = try decoder.decode(Array<Person>.self, from: data)
+                DispatchQueue.main.async {
+                    self.model = [ParticipantsVM.Section(header: nil, rows: persons, footer: nil)]
+                }
             }
+                catch {
+                    DispatchQueue.main.async {
+                        self.didFailedLoadingModel?()
+                    }
+                }
         }
     }
     
@@ -85,11 +96,15 @@ public class ViewModelParticipants: ParticipantsVM {
         self.willLoadDetail?()
         DispatchQueue.global().async {
             let url = URL(string: "http://emarest.cz.mass-php-1.mit.etn.cz/api/participant/\(person.id)")
-            let data = try! Data(contentsOf: url!)
-            let decoder = JSONDecoder()
-            let content = try! decoder.decode(BusinessCardContent.self, from: data)
-            DispatchQueue.main.async {
-                self.displayedDetail = content
+            do {
+                let data = try Data(contentsOf: url!)
+                let decoder = JSONDecoder()
+                let content = try decoder.decode(BusinessCardContent.self, from: data)
+                DispatchQueue.main.async {
+                    self.displayedDetail = content
+                }
+            } catch {
+                self.didFailedLoadingDetail?()
             }
         }
     }

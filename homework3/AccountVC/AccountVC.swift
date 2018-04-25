@@ -35,12 +35,21 @@ class AccountVC: UIViewController {
     }
     
     func bindViewModel() {
-        viewModel.needLogin = {
-            [weak self] in
+        viewModel.needLogin = { [weak self] reason in
             if self?.presentedViewController == self?.loginVC {
                 self?.loginVC.reset()
             } else {
                 self?.showLoginView()
+            }
+            if let reason = reason {
+                switch reason {
+                case .connectionError:
+                    self?.displayAlert(handler: { self?.viewModel.loginFilled(name: (self?.loginVC.content.inputNameValue)!, password: (self?.loginVC.content.inputPasswordValue)!)}, buttonTitle: "Try again", messageTitle: "No internet conection")
+                case .wrongLogin:
+                    self?.displayAlert(handler: {}, buttonTitle: "OK", messageTitle: "Wrong email or password")
+                case .canNotDownloadDetail:
+                    self?.displayAlert(handler: {}, buttonTitle: "Login again", messageTitle: "Account download error.")
+                }
             }
         }
         viewModel.willDownloadProfile = {
@@ -58,6 +67,7 @@ class AccountVC: UIViewController {
         viewModel.needFillInCredentials = {
             [weak self] in
             if let loginVC = self?.loginVC {
+                loginVC.reset()
                 loginVC.didLogin = {
                     self?.viewModel.loginFilled(name: $0, password: $1)
                 }
@@ -110,6 +120,12 @@ class AccountVC: UIViewController {
     
     func reset() {
         view.subviews.forEach({view in view.removeFromSuperview()})
+    }
+    
+    func displayAlert(handler: @escaping () -> Void, buttonTitle: String, messageTitle: String) {
+        let alert = UIAlertController(title: messageTitle, message: "", preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: buttonTitle, style: UIAlertActionStyle.default, handler: {action in handler()}))
+        (presentedViewController ?? self).present(alert, animated: true, completion: nil)
     }
 }
 

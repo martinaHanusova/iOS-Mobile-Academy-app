@@ -8,6 +8,11 @@
 
 import Foundation
 
+public enum NeedLoginReason {
+    case connectionError
+    case wrongLogin
+    case canNotDownloadDetail
+}
 
 public protocol Authenticator {
     func check(onSucces: @escaping () -> Void, onError: @escaping () -> Void)
@@ -30,7 +35,7 @@ public protocol AccountVM {
     var didLogin: ((AccountCredentials)->Void)? { get set }
     
     // should be called, when there is no valid credentials
-    var needLogin: (()->Void)? { get set }
+    var needLogin: ((NeedLoginReason?)->Void)? { get set }
     
     // should be called right before profile would be tried to download
     var willDownloadProfile: (()->Void)? { get set }
@@ -68,7 +73,7 @@ public class ViewModelAccount: AccountVM {
     
     public var didLogin: ((AccountCredentials) -> Void)?
     
-    public var needLogin: (() -> Void)?
+    public var needLogin: ((NeedLoginReason?) -> Void)?
     
     public var willDownloadProfile: (() -> Void)?
     
@@ -84,7 +89,7 @@ public class ViewModelAccount: AccountVM {
         if let accountCredentials = accountCredentials {
             findByAccountCredentials(account: accountCredentials)
         } else {
-            needLogin?()
+            needLogin?(nil)
         }
     }
     
@@ -121,7 +126,12 @@ public class ViewModelAccount: AccountVM {
         
         let dataTask = URLSession.shared.dataTask(with: urlRequest ){ (data, response, error) in
             
-            guard let data = data else { return }
+            guard let data = data else {
+                DispatchQueue.main.async {
+                self.needLogin?(NeedLoginReason.connectionError)
+                }
+                return
+            }
             
             let decoder = JSONDecoder()
             
@@ -133,7 +143,7 @@ public class ViewModelAccount: AccountVM {
                 }
             } catch {
                 DispatchQueue.main.async {
-                    self.needLogin?()
+                    self.needLogin?(NeedLoginReason.wrongLogin)
                 }
             }
         }
@@ -151,7 +161,13 @@ public class ViewModelAccount: AccountVM {
         
         let dataTask = URLSession.shared.dataTask(with: urlRequest ){ (data, response, error) in
             
-            guard let data = data else { return }
+            guard let data = data else {
+                DispatchQueue.main.async {
+                    self.accountCredentials = nil
+                    self.needLogin?(NeedLoginReason.canNotDownloadDetail)
+                }
+                return
+            }
             
             let decoder = JSONDecoder()
             
@@ -163,7 +179,7 @@ public class ViewModelAccount: AccountVM {
             } catch {
                 DispatchQueue.main.async {
                     self.accountCredentials = nil
-                    self.needLogin?()
+                    self.needLogin?(NeedLoginReason.canNotDownloadDetail)
                 }
             }
         }

@@ -61,6 +61,13 @@ class ParticipantListVC: UIViewController, UITableViewDelegate, UITableViewDataS
             participantDetailVC.content = $0
         }
         
+        viewModel.didFailedLoadingModel = { [weak self] in
+            self?.displayAlert(handler: {self?.viewModel.loadData()}, buttonTitle: "Try again")
+        }
+        
+        viewModel.didFailedLoadingDetail = { [weak self] in
+            self?.displayAlert(handler: {self?.navigationController?.popViewController(animated: true)}, buttonTitle: "OK")
+        }
         viewModel.loadData()
     }
     
@@ -90,6 +97,12 @@ class ParticipantListVC: UIViewController, UITableViewDelegate, UITableViewDataS
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         viewModel.rowSelected(inSection: indexPath.section, atIdx: indexPath.row)
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    func displayAlert(handler: @escaping () -> Void, buttonTitle: String) {
+        let alert = UIAlertController(title: "Ups. Unable to download data", message: "Check your internet conection.", preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: buttonTitle, style: UIAlertActionStyle.default, handler: {action in handler()}))
+        self.present(alert, animated: true, completion: nil)
     }
     
 }
