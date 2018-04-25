@@ -35,22 +35,26 @@ class ParticipantListVC: UIViewController, UITableViewDelegate, UITableViewDataS
         table.autoresizingMask = [.flexibleWidth,.flexibleHeight]
         
         
-        viewModel.didUpdateModel = { model in
+        viewModel.didUpdateModel = { [weak self] model in
             table.reloadData()
             loadingView.removeFromSuperview()
-            table.frame = self.view.frame
-            self.view.addSubview(table)
+            if let strongSelf = self {
+                table.frame = strongSelf.view.frame
+                strongSelf.view.addSubview(table)
+            }
         }
         
-        viewModel.willUpdateModel = {
+        viewModel.willUpdateModel = { [weak self] in
             loadingView.setup()
-            loadingView.frame = self.view.frame
-            self.view.addSubview(loadingView)
+            if let strongSelf = self {
+            loadingView.frame = strongSelf.view.frame
+            strongSelf.view.addSubview(loadingView)
+            }
         }
             
-        viewModel.willLoadDetail = {
+        viewModel.willLoadDetail = { [weak self] in
             participantDetailVC.content = nil
-            self.navigationController?.pushViewController(participantDetailVC, animated: true)
+            self?.navigationController?.pushViewController(participantDetailVC, animated: true)
         }
         
         viewModel.didLoadDetail = {

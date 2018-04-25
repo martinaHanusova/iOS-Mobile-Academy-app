@@ -14,16 +14,21 @@ class LoginVC: UIViewController {
     override func loadView() {
         content.displayTextFields = true
         content.didSubmit = {
-            if self.content.isFormCompleted {
-                self.content.isDisabled = true
-                self.didLogin?(self.content.inputNameValue!, self.content.inputPasswordValue!)
-            }
+            [weak self] in
+            self?.afterSubmit()
         }
         view = content
     }
     
     func reset() {
         content.isDisabled = false
+    }
+    
+    func afterSubmit() {
+        if content.isFormCompleted {
+            content.isDisabled = true
+            didLogin?(self.content.inputNameValue!, self.content.inputPasswordValue!)
+        }
     }
     
 }

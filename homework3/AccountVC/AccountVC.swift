@@ -36,27 +36,33 @@ class AccountVC: UIViewController {
     
     func bindViewModel() {
         viewModel.needLogin = {
-            if self.presentedViewController == self.loginVC {
-                self.loginVC.reset()
+            [weak self] in
+            if self?.presentedViewController == self?.loginVC {
+                self?.loginVC.reset()
             } else {
-                self.showLoginView()
+                self?.showLoginView()
             }
         }
         viewModel.willDownloadProfile = {
-            if self.presentedViewController == self.loginVC {
-                self.loginVC.dismiss(animated: true)
+            [weak self] in
+            if self?.presentedViewController == self?.loginVC {
+                self?.loginVC.dismiss(animated: true)
             }
-            self.showLoadingView()
+            self?.showLoadingView()
         }
         viewModel.didDownloadProfile = {
-            self.showParticipantDetail(businessCardContent: $0)
+            [weak self] in
+            self?.showParticipantDetail(businessCardContent: $0)
         }
         
         viewModel.needFillInCredentials = {
-            self.loginVC.didLogin = {
-                self.viewModel.loginFilled(name: $0, password: $1)
+            [weak self] in
+            if let loginVC = self?.loginVC {
+                loginVC.didLogin = {
+                    self?.viewModel.loginFilled(name: $0, password: $1)
+                }
+                self?.present(loginVC, animated: true)
             }
-            self.present(self.loginVC, animated: true)
         }
         
         
@@ -96,7 +102,8 @@ class AccountVC: UIViewController {
         let content = LoginView()
         content.displayTextFields = false
         content.didSubmit = {
-            self.viewModel.loginRequested()
+            [weak self] in
+            self?.viewModel.loginRequested()
         }
         return content
     }

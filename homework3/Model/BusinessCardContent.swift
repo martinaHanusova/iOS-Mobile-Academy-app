@@ -19,11 +19,11 @@ public class BusinessCardContent: Codable {
     public let position: String
     public let scores: [Score]
     
-    public init(id: Int, name: String, icon: String, slack_id: String, email: String, phone: String, position: String, scores: [Score]) {
+    public init(id: Int, name: String, icon: String, slackUserId: String, email: String, phone: String, position: String, scores: [Score]) {
         self.id = id
         self.name = name
         self.icon = icon
-        self.slackUserId = slack_id
+        self.slackUserId = slackUserId
         self.email = email
         self.phone = phone
         self.position = position
