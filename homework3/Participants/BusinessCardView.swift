@@ -33,7 +33,11 @@ class BusinessCardView: UIScrollView {
         guard let content = self.content else {
             return
         }
-        profileImageView.image = UIImage(named: content.icon + "-large")
+        //profileImageView.image = UIImage(named: content.icon + "-large")
+        let url = URL(string: "http://emarest.cz.mass-php-1.mit.etn.cz/api/png/\(content.icon)")
+        profileImageView.kf.setImage(with: url, completionHandler:{ [weak self] (_, _, _, _) in
+            self?.setNeedsLayout()
+        })
         nameView.text = content.name
         positionLabel.text = content.position
         contentView.translatesAutoresizingMaskIntoConstraints = false

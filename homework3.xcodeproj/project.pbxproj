@@ -27,7 +27,23 @@
 		5194F2762072812500CEDD7B /* ClickHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5194F2752072812500CEDD7B /* ClickHandler.swift */; };
 		51A4241220869316009AA3B9 /* ViewModelAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51A4241120869316009AA3B9 /* ViewModelAccount.swift */; };
 		51A424142086B85F009AA3B9 /* LocalAuthentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51A424132086B85F009AA3B9 /* LocalAuthentication.swift */; };
+		51E76434208FDADA00625B5E /* Kingfisher.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51E76433208FDADA00625B5E /* Kingfisher.framework */; };
+		51E76435208FDADA00625B5E /* Kingfisher.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 51E76433208FDADA00625B5E /* Kingfisher.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		51E76436208FDADA00625B5E /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				51E76435208FDADA00625B5E /* Kingfisher.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		513BD99F207185240083625A /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
@@ -52,6 +68,7 @@
 		5194F2752072812500CEDD7B /* ClickHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClickHandler.swift; sourceTree = "<group>"; };
 		51A4241120869316009AA3B9 /* ViewModelAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelAccount.swift; sourceTree = "<group>"; };
 		51A424132086B85F009AA3B9 /* LocalAuthentication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthentication.swift; sourceTree = "<group>"; };
+		51E76433208FDADA00625B5E /* Kingfisher.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Kingfisher.framework; path = Carthage/Build/iOS/Kingfisher.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +76,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				51E76434208FDADA00625B5E /* Kingfisher.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -68,6 +86,7 @@
 		517C03E420700D59002B789E = {
 			isa = PBXGroup;
 			children = (
+				51E76433208FDADA00625B5E /* Kingfisher.framework */,
 				517C03EF20700D59002B789E /* homework3 */,
 				517C03EE20700D59002B789E /* Products */,
 			);
@@ -151,6 +170,7 @@
 				517C03E920700D59002B789E /* Sources */,
 				517C03EA20700D59002B789E /* Frameworks */,
 				517C03EB20700D59002B789E /* Resources */,
+				51E76436208FDADA00625B5E /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -370,6 +390,10 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = XR3SY5JPA5;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = homework3/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = martina.hanus.homework3;
@@ -388,6 +412,10 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = XR3SY5JPA5;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = homework3/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = martina.hanus.homework3;

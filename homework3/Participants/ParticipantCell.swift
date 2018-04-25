@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class ParticipantCell: UITableViewCell {
     var person: Person? {
@@ -25,7 +26,10 @@ class ParticipantCell: UITableViewCell {
     func setup() {
         if let person = person {
             textLabel?.text = person.name
-            imageView?.image = UIImage(named: person.icon)
+            let url = URL(string: "http://emarest.cz.mass-php-1.mit.etn.cz/api/png/\(person.icon)")
+            imageView?.kf.setImage(with: url, completionHandler:{ [weak self] (_, _, _, _) in
+                self?.setNeedsLayout()
+            })
             detailTextLabel?.attributedText = scoreToString(scores: person.scores)
             detailTextLabel?.textColor = UIColor.gray
         }
