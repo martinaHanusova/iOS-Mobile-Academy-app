@@ -70,11 +70,12 @@ public class ViewModelParticipants: ParticipantsVM {
             self.didLoadDetail?((displayedDetail))
         }
     }
+    private let baseUrl = "http://emarest.cz.mass-php-1.mit.etn.cz/api/"
     
     public func loadData() {
         self.willUpdateModel?()
         DispatchQueue.global().async {
-            let url = URL(string: "http://emarest.cz.mass-php-1.mit.etn.cz/api/participants?sort=asc")
+            let url = URL(string: "\(self.baseUrl)participants?sort=asc")
             do {
                 let data = try Data(contentsOf: url!)
                 let decoder = JSONDecoder()
@@ -95,7 +96,7 @@ public class ViewModelParticipants: ParticipantsVM {
         let person = model[inSection].rows[atIdx]
         self.willLoadDetail?()
         DispatchQueue.global().async {
-            let url = URL(string: "http://emarest.cz.mass-php-1.mit.etn.cz/api/participant/\(person.id)")
+            let url = URL(string: "\(self.baseUrl)participant/\(person.id)")
             do {
                 let data = try Data(contentsOf: url!)
                 let decoder = JSONDecoder()

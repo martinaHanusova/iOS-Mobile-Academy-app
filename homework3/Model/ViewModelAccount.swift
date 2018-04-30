@@ -93,6 +93,8 @@ public class ViewModelAccount: AccountVM {
         }
     }
     
+    private let baseUrl = "http://emarest.cz.mass-php-1.mit.etn.cz/api/"
+    
     private let userDefaultsKey: String = "SavedCredentials"
     
     public func loginRequested() {
@@ -113,7 +115,7 @@ public class ViewModelAccount: AccountVM {
     public func loginFilled(name: String, password: String) {
         self.willTryLogin?()
         let login = Login(name, password)
-        let url = URL(string: "http://emarest.cz.mass-php-1.mit.etn.cz/api/login")
+        let url = URL(string: "\(self.baseUrl)login")
         var urlRequest = URLRequest(url: url!)
         urlRequest.httpMethod = "POST"
         urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -155,7 +157,7 @@ public class ViewModelAccount: AccountVM {
     func findByAccountCredentials(account: AccountCredentials) {
         self.willDownloadProfile?()
         
-        let url = URL(string: "http://emarest.cz.mass-php-1.mit.etn.cz/api/account/\(account.accountId)")
+        let url = URL(string: "\(self.baseUrl)account/\(account.accountId)")
         var urlRequest = URLRequest(url: url!)
         urlRequest.addValue(account.accessToken, forHTTPHeaderField: "accessToken")
         
