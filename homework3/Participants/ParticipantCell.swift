@@ -26,7 +26,7 @@ class ParticipantCell: UITableViewCell {
     func setup() {
         if let person = person {
             textLabel?.text = person.name
-            let url = URL(string: "http://emarest.cz.mass-php-1.mit.etn.cz/api/png/\(person.icon)")
+            let url = URL(string: person.imageUrl)
             imageView?.kf.setImage(with: url, completionHandler:{ [weak self] (_, _, _, _) in
                 self?.setNeedsLayout()
             })

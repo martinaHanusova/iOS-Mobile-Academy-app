@@ -28,7 +28,15 @@ class LoginVC: UIViewController {
         if content.isFormCompleted {
             content.isDisabled = true
             didLogin?(self.content.inputNameValue!, self.content.inputPasswordValue!)
+        } else {
+            displayAlert(handler: {self.dismiss(animated: true, completion: nil)}, buttonTitle: "OK", messageTitle: "Empty email or password")
         }
+    }
+    
+    func displayAlert(handler: @escaping () -> Void, buttonTitle: String, messageTitle: String) {
+        let alert = UIAlertController(title: messageTitle, message: "", preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: buttonTitle, style: UIAlertActionStyle.default, handler: {action in handler()}))
+        (presentedViewController ?? self).present(alert, animated: true, completion: nil)
     }
     
 }

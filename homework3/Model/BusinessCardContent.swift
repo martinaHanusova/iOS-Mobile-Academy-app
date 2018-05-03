@@ -13,13 +13,14 @@ public class BusinessCardContent: Codable {
     public let id: Int
     public let name: String
     public let icon: String
+    public let imageUrl: String
     public let slackUserId: String
     public let email: String
     public let phone: String
     public let position: String
     public let scores: [Score]
     
-    public init(id: Int, name: String, icon: String, slackUserId: String, email: String, phone: String, position: String, scores: [Score]) {
+    public init(id: Int, name: String, icon: String, slackUserId: String, email: String, phone: String, position: String, scores: [Score], imageUrl: String) {
         self.id = id
         self.name = name
         self.icon = icon
@@ -28,6 +29,7 @@ public class BusinessCardContent: Codable {
         self.phone = phone
         self.position = position
         self.scores = scores
+        self.imageUrl = imageUrl
     }
     
     enum CodingKeys: String, CodingKey {
@@ -40,6 +42,7 @@ public class BusinessCardContent: Codable {
         case phone
         case position
         case scores
+        case imageUrl
         
     }
 }

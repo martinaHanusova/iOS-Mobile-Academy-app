@@ -44,19 +44,22 @@ public class Person: Codable, PersonType {
     public private(set) var name: String
     public private(set) var icon: String
     public private(set) var scores: [ScoreType]
+    public private(set) var imageUrl: String
     
     enum CodingKeys: String, CodingKey {
         case id = "id"
         case name = "name"
         case icon = "icon"
+        case imageUrl = "imageUrl"
         case scores = "scores"
     }
     
-    public init(id: Int, _ name: String, icon: String, scores: [Score] ) {
+    public init(id: Int, _ name: String, icon: String, scores: [Score], imageUrl: String ) {
         self.id = id
         self.name = name
         self.icon = icon
         self.scores = scores
+        self.imageUrl = imageUrl
     }
     
     public convenience required init(from decoder: Decoder) throws {
@@ -65,8 +68,8 @@ public class Person: Codable, PersonType {
         let name: String = try container.decode(String.self, forKey: .name)
         let icon: String = try container.decode(String.self, forKey: .icon)
         let scores: [Score] = try container.decode([Score].self, forKey: .scores)
-        
-        self.init(id: id, name, icon: icon, scores: scores)
+        let imageUrl = try container.decode(String.self, forKey: .imageUrl)
+        self.init(id: id, name, icon: icon, scores: scores, imageUrl: imageUrl)
     }
     
     public func encode(to encoder: Encoder) throws {
@@ -75,6 +78,7 @@ public class Person: Codable, PersonType {
         try container.encode(name, forKey: .name)
         try container.encode(icon, forKey: .icon)
         try container.encode(scores as! [Score], forKey: .scores)
+        try container.encode(imageUrl, forKey: .imageUrl)
 
     }
 }

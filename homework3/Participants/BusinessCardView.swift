@@ -33,8 +33,7 @@ class BusinessCardView: UIScrollView {
         guard let content = self.content else {
             return
         }
-        //profileImageView.image = UIImage(named: content.icon + "-large")
-        let url = URL(string: "http://emarest.cz.mass-php-1.mit.etn.cz/api/png/\(content.icon)")
+        let url = URL(string: content.imageUrl)
         profileImageView.kf.setImage(with: url, completionHandler:{ [weak self] (_, _, _, _) in
             self?.setNeedsLayout()
         })
