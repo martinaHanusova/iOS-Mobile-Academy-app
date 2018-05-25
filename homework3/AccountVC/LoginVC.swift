@@ -17,6 +17,10 @@ class LoginVC: UIViewController {
             [weak self] in
             self?.afterSubmit()
         }
+        content.didBackButtonClick = {
+            [weak self] in
+            self?.dismiss(animated: true)
+        }
         view = content
     }
     
@@ -29,7 +33,7 @@ class LoginVC: UIViewController {
             content.isDisabled = true
             didLogin?(self.content.inputNameValue!, self.content.inputPasswordValue!)
         } else {
-            displayAlert(handler: {self.dismiss(animated: true, completion: nil)}, buttonTitle: "OK", messageTitle: "Empty email or password")
+            displayAlert(handler: {}, buttonTitle: "OK", messageTitle: "Empty email or password")
         }
     }
     

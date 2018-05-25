@@ -80,7 +80,7 @@ class ParticipantListVC: UIViewController, UITableViewDelegate, UITableViewDataS
         let data = viewModel.modelForRow(inSection: indexPath.section, atIdx: indexPath.row)
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell") ?? ParticipantCell(style: .subtitle, reuseIdentifier: nil)
-        (cell as! ParticipantCell).person = data
+        (cell as! ParticipantCell).setup(person: data)
         return cell
     }
     

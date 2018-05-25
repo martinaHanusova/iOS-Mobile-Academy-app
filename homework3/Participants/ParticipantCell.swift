@@ -10,11 +10,7 @@ import UIKit
 import Kingfisher
 
 class ParticipantCell: UITableViewCell {
-    var person: Person? {
-        didSet {
-            setup()
-        }
-    }
+
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
     }
@@ -23,7 +19,7 @@ class ParticipantCell: UITableViewCell {
         super.init(coder: aDecoder)
     }
     
-    func setup() {
+    func setup(person: Person?) {
         if let person = person {
             textLabel?.text = person.name
             let url = URL(string: person.imageUrl)

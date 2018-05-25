@@ -46,7 +46,8 @@ class AccountVC: UIViewController {
                 case .connectionError:
                     self?.displayAlert(handler: { self?.viewModel.loginFilled(name: (self?.loginVC.content.inputNameValue)!, password: (self?.loginVC.content.inputPasswordValue)!)}, buttonTitle: "Try again", messageTitle: "No internet conection")
                 case .wrongLogin:
-                    self?.displayAlert(handler: {self?.dismiss(animated: true, completion: nil)}, buttonTitle: "OK", messageTitle: "Wrong email or password")
+                    self?.loginVC.content.clearPasswordTextfield()
+                    self?.displayAlert(handler: {}, buttonTitle: "OK", messageTitle: "Wrong email or password")
                 case .canNotDownloadDetail:
                     self?.displayAlert(handler: {}, buttonTitle: "Login again", messageTitle: "Account download error.")
                 }
@@ -114,6 +115,7 @@ class AccountVC: UIViewController {
             [weak self] in
             self?.viewModel.loginRequested()
         }
+
         return content
     }
     

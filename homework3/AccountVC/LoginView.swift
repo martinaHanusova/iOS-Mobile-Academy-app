@@ -13,7 +13,9 @@ public class LoginView: UIView, UITextFieldDelegate {
     private(set) lazy var nameTextField = createNameTextField()
     private(set) lazy var passwordTextField = createPasswordTextField()
     private(set) lazy var loginButton = createButton()
+    private(set) lazy var backButton = createButtonBack()
     public var didSubmit: (() -> Void)?
+    public var didBackButtonClick: (() -> Void)?
     public var inputNameValue: String? {
         get {
             return nameTextField.text
@@ -57,6 +59,12 @@ public class LoginView: UIView, UITextFieldDelegate {
         stackView.distribution = .fill
         stackView.alignment = .fill
         if displayTextFields ?? false {
+            let buttonBackContrainer = UIStackView()
+            buttonBackContrainer.axis = .vertical
+            buttonBackContrainer.alignment = .center
+            buttonBackContrainer.distribution = .equalCentering
+            buttonBackContrainer.addArrangedSubview(backButton)
+            stackView.addArrangedSubview(buttonBackContrainer)
             stackView.addArrangedSubview(nameTextField)
             stackView.addArrangedSubview(passwordTextField)
         }
@@ -119,11 +127,33 @@ public class LoginView: UIView, UITextFieldDelegate {
         return loginButton
     }
     
+    private func createButtonBack() -> UIButton {
+        let padding: CGFloat = 15.0
+        let cortnerRadius: CGFloat = 5
+        let buttonBack = UIButton()
+        buttonBack.setTitle("Zpět", for: .normal)
+        buttonBack.setTitleColor(.white, for: .normal)
+        buttonBack.setTitleColor(UIColor.white.withAlphaComponent(0.7), for: .highlighted)
+        buttonBack.backgroundColor = UIColor(named: "academy")
+        buttonBack.contentEdgeInsets = UIEdgeInsets(top: padding, left: padding, bottom: padding, right: padding)
+        buttonBack.layer.cornerRadius = cortnerRadius
+        buttonBack.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        buttonBack.translatesAutoresizingMaskIntoConstraints = false
+        buttonBack.addTarget(self, action: #selector(LoginView.backButtonClick), for: .touchUpInside)
+        return buttonBack
+    }
+    
     private func createClickHandler() -> ClickHandler {
         return ClickHandler {
             if let didSubmit = self.didSubmit {
                 didSubmit()
             }
+        }
+    }
+    
+    @objc public func backButtonClick() {
+        if let didBackButtonClick = self.didBackButtonClick {
+            didBackButtonClick()
         }
     }
     
@@ -138,5 +168,9 @@ public class LoginView: UIView, UITextFieldDelegate {
             passwordTextField.becomeFirstResponder()
         }
         return true
+    }
+    
+    public func clearPasswordTextfield() {
+        passwordTextField.text = ""
     }
 }

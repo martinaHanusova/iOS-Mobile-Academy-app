@@ -18,7 +18,6 @@ public protocol ParticipantsVM {
     // Should be called, when list data begin to load
     var willUpdateModel: (()->Void)? { get set }
     var didFailedLoadingModel: (() -> Void)? { get set }
-    // Should be called, when detail loading. True = began. False = finished with error, or when participant should be closed for now
     var willLoadDetail: (()->Void)? { get set }
     // Should be called, when detail is available and should be displayed
     var didLoadDetail: ((BusinessCardContent?)->Void)? { get set }
